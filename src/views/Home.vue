@@ -4,11 +4,19 @@
     <input id="span" v-model="span" />
     <label for="chord-fuse">Fuselage chord</label>
     <input id="chord-fuse" v-model="chord_fuse" />
-    <label for="chord-tip">Tip Chord</label>
-    <input id="chord-tip" v-model="chord_tip" />
+    <div class="field">
+      <label for="chord-tip">Tip Chord</label>
+      <div class="input-append">
+        <input id="chord-tip" v-model="chord_tip" />
+        <div class="unit">m</div>
+      </div>
+    </div>
     <div class="field">
       <label for="angle">Angle</label>
-      <input id="angle" v-model="angle" />
+      <div class="input-append">
+        <input id="angle" v-model="angle" />
+        <div class="unit">º</div>
+      </div>
     </div>
   </div>
   <div id="wing-plot"></div>
@@ -89,22 +97,42 @@ export default {
 .form {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
+  max-width: 300px;
 }
 .form .field {
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.25rem;
-}
-input {
-  margin-bottom: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  height: 2rem;
+  margin-bottom: 0.5rem;
 }
 label {
   margin: 0.25rem 0;
   font-weight: 700;
   text-align: left;
+}
+.input-append {
+  position: relative;
+  height: 2rem;
+}
+input {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  font-size: 1rem;
+  padding-left: 0.5rem;
+}
+.unit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3rem;
+  height: 100%;
+  border: 1px solid #ddd;
+  border-radius: 0 5px 5px 0;
+  background: #eee;
+  font-weight: 900;
 }
 </style>
