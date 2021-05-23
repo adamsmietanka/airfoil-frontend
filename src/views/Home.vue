@@ -78,13 +78,24 @@ export default {
         dragmode: false,
       };
     },
+    options() {
+      return {
+        scrollZoom: false,
+        responsive: true,
+        modeBarButtons: [["toImage"]],
+        toImageButtonOptions: {
+          format: "png",
+          filename: "engine_power",
+        },
+      };
+    },
   },
   mounted() {
-    Plotly.newPlot("wing-plot", [this.trace1]);
+    Plotly.newPlot("wing-plot", [this.trace1], this.layout, this.options);
   },
   watch: {
     trace1() {
-      Plotly.react("wing-plot", [this.trace1]);
+      Plotly.react("wing-plot", [this.trace1], this.layout, this.options);
     },
   },
 };
