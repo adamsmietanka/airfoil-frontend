@@ -1,21 +1,23 @@
 <template>
-  <div class="form">
-    <NumberField id="span" label="Span" v-model="span" unit="m" />
-    <NumberField
-      id="chord-fuse"
-      label="Fuselage chord"
-      v-model="chord_fuse"
-      unit="m"
-    />
-    <NumberField
-      id="chord-tip"
-      label="Tip Chord"
-      v-model="chord_tip"
-      unit="m"
-    />
-    <NumberField id="angle" label="Angle" v-model="angle" unit="º" />
+  <div class="layout">
+    <div class="form">
+      <NumberField id="span" label="Span" v-model="span" unit="m" />
+      <NumberField
+        id="chord-fuse"
+        label="Fuselage chord"
+        v-model="chord_fuse"
+        unit="m"
+      />
+      <NumberField
+        id="chord-tip"
+        label="Tip Chord"
+        v-model="chord_tip"
+        unit="m"
+      />
+      <NumberField id="angle" label="Angle" v-model="angle" unit="º" />
+    </div>
+    <div id="wing-plot"></div>
   </div>
-  <div id="wing-plot"></div>
 </template>
 
 <script>
@@ -50,15 +52,15 @@ export default {
     },
     layout() {
       return {
-        title: "Wing",
-        font: { size: 18 },
-        height: window.innerWidth > 960 ? 600 : window.innerHeight * 0.5,
-        width: window.innerWidth > 960 ? 600 : window.innerWidth * 0.9,
+        title: "Wing contour",
+        font: { size: 16 },
+        height: 400,
+        width: 600,
         margin: {
-          l: 65,
+          l: 100,
           r: 10,
           b: 100,
-          t: 100,
+          t: 50,
           pad: 4,
         },
         yaxis: {
@@ -66,13 +68,14 @@ export default {
           scaleratio: 1,
           title: {
             text: "[m]",
-            font: { size: 16 },
+            font: { size: 12 },
+            standoff: 5,
           },
         },
         xaxis: {
           title: {
             text: "[m]",
-            font: { size: 16 },
+            font: { size: 12 },
           },
         },
         dragmode: false,
@@ -102,9 +105,14 @@ export default {
 </script>
 
 <style scoped>
+.layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 .form {
   display: flex;
   flex-direction: column;
-  max-width: 300px;
+  width: 250px;
 }
 </style>
