@@ -38,11 +38,11 @@ export default {
       return {
         x: [0, this.span / 2, this.span / 2, 0, 0],
         y: [
-          this.chord_fuse,
-          (-Math.tan((this.angle * Math.PI) / 180) * this.span) / 2,
-          (-Math.tan((this.angle * Math.PI) / 180) * this.span) / 2 -
-            this.chord_tip,
           0,
+          -(Math.tan((this.angle * Math.PI) / 180) * this.span) / 2,
+          -(Math.tan((this.angle * Math.PI) / 180) * this.span) / 2 -
+            this.chord_tip,
+          -this.chord_fuse,
           0,
         ],
         type: "scatter",
