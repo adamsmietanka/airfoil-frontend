@@ -1,21 +1,20 @@
 <template>
-  <div id="home"></div>
   <div class="form">
-    <label for="span-form">Span</label>
-    <input id="span-form" v-model="span" />
-    <label for="chord-fuse-form">Fuselage chord</label>
-    <input id="chord-fuse-form" v-model="chord_fuse" />
-    <label for="chord-tip-form">Tip Chord</label>
-    <input id="chord-tip-form" v-model="chord_tip" />
-    <div id="angle">
-      <label for="angle-form">Angle</label>
-      <input id="angle-form" v-model="angle" />
+    <label for="span">Span</label>
+    <input id="span" v-model="span" />
+    <label for="chord-fuse">Fuselage chord</label>
+    <input id="chord-fuse" v-model="chord_fuse" />
+    <label for="chord-tip">Tip Chord</label>
+    <input id="chord-tip" v-model="chord_tip" />
+    <div class="field">
+      <label for="angle">Angle</label>
+      <input id="angle" v-model="angle" />
     </div>
   </div>
+  <div id="wing-plot"></div>
 </template>
 
 <script>
-// @ is an alias to /src
 import Plotly from "plotly.js-gl3d-dist-min";
 
 export default {
@@ -44,7 +43,6 @@ export default {
         type: "scatter",
       };
     },
-
     layout() {
       return {
         title: "Wing",
@@ -77,11 +75,11 @@ export default {
     },
   },
   mounted() {
-    Plotly.newPlot("home", [this.trace1]);
+    Plotly.newPlot("wing-plot", [this.trace1]);
   },
   watch: {
     trace1() {
-      Plotly.react("home", [this.trace1]);
+      Plotly.react("wing-plot", [this.trace1]);
     },
   },
 };
@@ -93,12 +91,20 @@ export default {
   flex-direction: column;
   max-width: 400px;
 }
-
+.form .field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.25rem;
+}
 input {
   margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  height: 2rem;
 }
 label {
-  display: block;
-  float: left;
+  margin: 0.25rem 0;
+  font-weight: 700;
+  text-align: left;
 }
 </style>
