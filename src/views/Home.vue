@@ -1,7 +1,8 @@
 <template>
-  <div class="layout">
+  <container>
     <div class="form">
       <NumberField id="span" label="Span" v-model="span" unit="m" />
+      <!--      TODO: add radio wing type choice-->
       <NumberField
         id="chord-fuse"
         label="Fuselage chord"
@@ -17,7 +18,7 @@
       <NumberField id="angle" label="Angle" v-model="angle" unit="º" />
     </div>
     <div id="wing-plot"></div>
-  </div>
+  </container>
 </template>
 
 <script>
@@ -158,7 +159,7 @@ export default {
 </script>
 
 <style scoped>
-.layout {
+container {
   display: flex;
   flex-direction: row;
   justify-content: center;
