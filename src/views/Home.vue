@@ -97,13 +97,15 @@ export default {
           t: 50,
           pad: 4,
         },
-        yaxis: {
-          scaleanchor: "x",
-          scaleratio: 1,
-          title: {
-            text: "[m]",
-            font: { size: 12 },
-            standoff: 5,
+        scene: {
+          aspectmode: "manual",
+          aspectratio: {
+            x: 1,
+            y: this.span / 2 / Math.max(this.chord_fuse, -this.tip_trailing),
+            z:
+              (this.chord_fuse *
+                (Math.max(...this.profile[1]) - Math.min(...this.profile[1]))) /
+              Math.max(this.chord_fuse, -this.tip_trailing),
           },
         },
       };
