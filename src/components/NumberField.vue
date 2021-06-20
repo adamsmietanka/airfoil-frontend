@@ -3,6 +3,7 @@
     <label :for="id">{{ label }}</label>
     <div class="input-append">
       <input
+        type="number"
         id="id"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
