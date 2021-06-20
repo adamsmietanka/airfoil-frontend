@@ -36,19 +36,38 @@ export default {
     };
   },
   computed: {
-    trace1() {
+    tip_trailing() {
+      return (
+        -(Math.tan((this.angle * Math.PI) / 180) * this.span) / 2 -
+        this.chord_tip
+      );
+    },
+    tip_leading() {
+      return -(Math.tan((this.angle * Math.PI) / 180) * this.span) / 2;
+    },
+    leading() {
       return {
-        x: [0, this.span / 2, this.span / 2, 0, 0],
-        y: [
-          0,
-          -(Math.tan((this.angle * Math.PI) / 180) * this.span) / 2,
-          -(Math.tan((this.angle * Math.PI) / 180) * this.span) / 2 -
-            this.chord_tip,
-          -this.chord_fuse,
-          0,
-        ],
-        type: "scatter",
+        x: [...Array(11).keys()].map((x) => (x * this.tip_leading) / 10),
+        y: [...Array(11).keys()].map((y) => (y * this.span) / 2 / 10),
+        z: Array(11).fill(0),
+        type: "scatter3d",
+        mode: "lines",
       };
+    },
+    trailing() {
+      return {
+        x: [...Array(11).keys()].map(
+          (x) =>
+            (x * (this.chord_fuse + this.tip_trailing)) / 10 - this.chord_fuse
+        ),
+        y: [...Array(11).keys()].map((y) => (y * this.span) / 2 / 10),
+        z: Array(11).fill(0),
+        type: "scatter3d",
+        mode: "lines",
+      };
+    },
+    traces() {
+      return [this.leading, this.trailing];
     },
     layout() {
       return {
@@ -94,11 +113,11 @@ export default {
     },
   },
   mounted() {
-    Plotly.newPlot("wing-plot", [this.trace1], this.layout, this.options);
+    Plotly.newPlot("wing-plot", this.traces, this.layout, this.options);
   },
   watch: {
-    trace1() {
-      Plotly.react("wing-plot", [this.trace1], this.layout, this.options);
+    traces() {
+      Plotly.react("wing-plot", this.traces, this.layout, this.options);
     },
   },
 };
