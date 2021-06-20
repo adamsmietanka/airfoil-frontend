@@ -72,9 +72,10 @@ export default {
     layout() {
       return {
         title: "Wing contour",
-        font: { size: 16 },
-        height: 400,
-        width: 600,
+        showlegend: false,
+        font: { size: 12 },
+        height: 600,
+        width: 1000,
         margin: {
           l: 100,
           r: 10,
@@ -91,13 +92,6 @@ export default {
             standoff: 5,
           },
         },
-        xaxis: {
-          title: {
-            text: "[m]",
-            font: { size: 12 },
-          },
-        },
-        dragmode: false,
       };
     },
     options() {
