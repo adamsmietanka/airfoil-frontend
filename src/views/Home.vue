@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Plotly from "plotly.js-gl3d-dist-min";
 import NumberField from "@/components/NumberField";
 
@@ -33,6 +34,10 @@ export default {
       chord_fuse: 2,
       chord_tip: 1,
       angle: 10,
+      profile: [
+        [0, 0.5, 1, 0.5, 0],
+        [0, 1, 0, -1, 0],
+      ],
     };
   },
   computed: {
@@ -66,8 +71,17 @@ export default {
         mode: "lines",
       };
     },
+    section() {
+      return {
+        x: this.profile[0].map((x) => x * -this.chord_fuse),
+        y: Array(this.profile[0].length).fill(0),
+        z: this.profile[1].map((z) => z * this.chord_fuse),
+        type: "scatter3d",
+        mode: "lines",
+      };
+    },
     traces() {
-      return [this.leading, this.trailing];
+      return [this.leading, this.trailing, this.section];
     },
     layout() {
       return {
@@ -109,8 +123,32 @@ export default {
   mounted() {
     Plotly.newPlot("wing-plot", this.traces, this.layout, this.options);
   },
+  created() {
+    axios
+      .get("http://localhost:5000/test")
+      .then((res) => {
+        console.log(res.data);
+        this.profile = res.data;
+      })
+      .catch((error) => {
+        // eslint-disable-next-line
+          console.error(error);
+      });
+    axios
+      .get("http://localhost:5000/airfoil", { params: { airfoil: 22112 } })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        // eslint-disable-next-line
+          console.error(error);
+      });
+  },
   watch: {
     traces() {
+      Plotly.react("wing-plot", this.traces, this.layout, this.options);
+    },
+    profile() {
       Plotly.react("wing-plot", this.traces, this.layout, this.options);
     },
   },
