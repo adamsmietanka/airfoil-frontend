@@ -16,6 +16,12 @@
         unit="m"
       />
       <NumberField id="angle" label="Angle" v-model="angle" unit="º" />
+      <select v-model="selected_airfoil" >
+        <option v-for="airfoil in airfoils" :key="airfoil">
+          {{ airfoil }}
+        </option>
+      </select>
+      <span>Selected: {{selected_airfoil}}</span>
     </div>
     <div id="wing-plot"></div>
   </container>
@@ -39,6 +45,8 @@ export default {
         [0, 0.5, 1, 0.5, 0],
         [0, 1, 0, -1, 0],
       ],
+      airfoils: ["Select 1", "Select 2", "Select 3"],
+      selected_airfoil: "test",
     };
   },
   computed: {
@@ -138,9 +146,20 @@ export default {
           console.error(error);
       });
     axios
-      .get("http://localhost:5000/airfoil", { params: { airfoil: 22112 } })
+        .get("http://localhost:5000/airfoil", { params: { airfoil: this.selected_airfoil } })
+        .then((res) => {
+          console.log(res.data);
+          this.profile = res.data;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+        });
+    axios
+      .get("http://localhost:5000/airfoils")
       .then((res) => {
         console.log(res.data);
+        this.airfoils = res.data;
       })
       .catch((error) => {
         // eslint-disable-next-line
@@ -150,6 +169,14 @@ export default {
   watch: {
     traces() {
       Plotly.react("wing-plot", this.traces, this.layout, this.options);
+    },
+    selected_airfoil() {
+      axios
+          .get("http://localhost:5000/airfoil", { params: { airfoil: this.selected_airfoil } })
+          .then((res) => {
+            console.log(res.data);
+            this.profile = res.data;
+          })
     },
     profile() {
       Plotly.react("wing-plot", this.traces, this.layout, this.options);
