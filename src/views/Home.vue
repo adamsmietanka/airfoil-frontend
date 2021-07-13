@@ -37,7 +37,6 @@ export default {
   components: { NumberField },
   data() {
     return {
-      span: 10,
       chord_fuse: 2,
       chord_tip: 1,
       angle: 10,
@@ -50,6 +49,14 @@ export default {
     };
   },
   computed: {
+    span: {
+      get() {
+        return this.$store.state.span;
+      },
+      set(value) {
+        this.$store.commit("SET_SPAN", value);
+      },
+    },
     tip_trailing() {
       return (
         -(Math.tan((this.angle * Math.PI) / 180) * this.span) / 2 -
