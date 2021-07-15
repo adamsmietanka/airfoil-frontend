@@ -21,7 +21,7 @@
           {{ airfoil }}
         </option>
       </select>
-      <span>Selected: {{selected_airfoil}}</span>
+      <span>Selected: {{ selected_airfoil }}</span>
     </div>
     <div id="wing-plot"></div>
   </container>
@@ -37,15 +37,11 @@ export default {
   components: { NumberField },
   data() {
     return {
-      chord_fuse: 2,
-      chord_tip: 1,
-      angle: 10,
       profile: [
         [0, 0.5, 1, 0.5, 0],
         [0, 1, 0, -1, 0],
       ],
       airfoils: ["Select 1", "Select 2", "Select 3"],
-      selected_airfoil: "test",
     };
   },
   computed: {
@@ -55,6 +51,38 @@ export default {
       },
       set(value) {
         this.$store.commit("SET_SPAN", value);
+      },
+    },
+    chord_fuse: {
+      get() {
+        return this.$store.state.chord_fuse;
+      },
+      set(value) {
+        return this.$store.commit("SET_CHORD_FUSE", value);
+      },
+    },
+    chord_tip: {
+      get() {
+        return this.$store.state.chord_tip;
+      },
+      set(value) {
+        return this.$store.commit("SET_CHORD_TIP", value);
+      },
+    },
+    angle: {
+      get() {
+        return this.$store.state.angle;
+      },
+      set(value) {
+        return this.$store.commit("SET_ANGLE", value);
+      },
+    },
+    selected_airfoil: {
+      get() {
+        return this.$store.state.selected_airfoil;
+      },
+      set(value) {
+        return this.$store.commit("SET_AIRFOIL", value);
       },
     },
     tip_trailing() {
