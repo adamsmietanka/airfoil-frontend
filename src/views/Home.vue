@@ -179,35 +179,15 @@ export default {
     Plotly.newPlot("wing-plot", this.traces, this.layout, this.options);
   },
   created() {
+    axios.get("http://localhost:5000/airfoils").then((res) => {
+      this.airfoils = res.data;
+    });
     axios
-      .get("http://localhost:5000/test")
+      .get("http://localhost:5000/airfoil", {
+        params: { airfoil: this.selected_airfoil },
+      })
       .then((res) => {
-        console.log(res.data);
         this.profile = res.data;
-      })
-      .catch((error) => {
-        // eslint-disable-next-line
-          console.error(error);
-      });
-    axios
-        .get("http://localhost:5000/airfoil", { params: { airfoil: this.selected_airfoil } })
-        .then((res) => {
-          console.log(res.data);
-          this.profile = res.data;
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
-        });
-    axios
-      .get("http://localhost:5000/airfoils")
-      .then((res) => {
-        console.log(res.data);
-        this.airfoils = res.data;
-      })
-      .catch((error) => {
-        // eslint-disable-next-line
-          console.error(error);
       });
   },
   watch: {
@@ -216,11 +196,12 @@ export default {
     },
     selected_airfoil() {
       axios
-          .get("http://localhost:5000/airfoil", { params: { airfoil: this.selected_airfoil } })
-          .then((res) => {
-            console.log(res.data);
-            this.profile = res.data;
-          })
+        .get("http://localhost:5000/airfoil", {
+          params: { airfoil: this.selected_airfoil },
+        })
+        .then((res) => {
+          this.profile = res.data;
+        });
     },
     profile() {
       Plotly.react("wing-plot", this.traces, this.layout, this.options);
