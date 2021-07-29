@@ -38,8 +38,8 @@ export default {
   data() {
     return {
       profile: [
-        [0, 0.5, 1, 0.5, 0],
-        [0, 1, 0, -1, 0],
+        [0, 1, 0],
+        [0, 0, 0],
       ],
       airfoils: ["Select 1", "Select 2", "Select 3"],
     };
