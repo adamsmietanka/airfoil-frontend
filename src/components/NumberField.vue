@@ -5,8 +5,8 @@
       <input
         type="number"
         id="id"
-        :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
+        :value="value"
+        @input="setValue($event.target.value)"
       />
       <div class="unit">{{ unit }}</div>
     </div>
@@ -17,12 +17,29 @@
 export default {
   name: "NumberField",
   props: {
-    id: String,
     label: String,
-    modelValue: Number,
+    value: Number,
+    setter: Function,
     unit: String,
   },
-  emits: ["update:modelValue"],
+  data() {
+    return {
+      timeout: null,
+    };
+  },
+  methods: {
+    setValue(val) {
+      this.timeout && clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        this.setter(val);
+      }, 500);
+    },
+  },
+  computed: {
+    id() {
+      return this.label.toLowerCase().split(" ").join("-");
+    },
+  },
 };
 </script>
 

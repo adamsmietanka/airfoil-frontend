@@ -1,22 +1,22 @@
 <template>
   <section>
     <div class="form">
-      <NumberField id="span" label="Span" v-model="span" unit="m" />
+      <NumberField label="Span" :value="span" :setter="SET_SPAN" unit="m" />
       <!--      TODO: add radio wing type choice-->
       <NumberField
-        id="chord-fuse"
         label="Fuselage chord"
-        v-model="chord_fuse"
+        :value="chord_fuse"
+        :setter="SET_CHORD_FUSE"
         unit="m"
       />
       <NumberField
-        id="chord-tip"
         label="Tip Chord"
-        v-model="chord_tip"
+        :value="chord_tip"
+        :setter="SET_CHORD_TIP"
         unit="m"
       />
-      <NumberField id="angle" label="Angle" v-model="angle" unit="º" />
-      <select v-model="selected_airfoil" >
+      <NumberField label="Angle" :value="angle" :setter="SET_ANGLE" unit="º" />
+      <select v-model="selected_airfoil">
         <option v-for="airfoil in airfoils" :key="airfoil">
           {{ airfoil }}
         </option>
@@ -31,6 +31,7 @@
 import axios from "axios";
 import Plotly from "plotly.js-gl3d-dist-min";
 import NumberField from "@/components/NumberField";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "Home",
@@ -41,45 +42,27 @@ export default {
         [0, 1, 0],
         [0, 0, 0],
       ],
-      airfoils: ["Select 1", "Select 2", "Select 3"],
+      airfoils: [],
     };
   },
+  methods: {
+    ...mapMutations([
+      "SET_SPAN",
+      "SET_CHORD_FUSE",
+      "SET_CHORD_TIP",
+      "SET_ANGLE",
+    ]),
+  },
   computed: {
-    span: {
-      get() {
-        return this.$store.state.span;
-      },
-      set(value) {
-        this.$store.commit("SET_SPAN", value);
-      },
-    },
-    chord_fuse: {
-      get() {
-        return this.$store.state.chord_fuse;
-      },
-      set(value) {
-        return this.$store.commit("SET_CHORD_FUSE", value);
-      },
-    },
-    chord_tip: {
-      get() {
-        return this.$store.state.chord_tip;
-      },
-      set(value) {
-        return this.$store.commit("SET_CHORD_TIP", value);
-      },
-    },
-    angle: {
-      get() {
-        return this.$store.state.angle;
-      },
-      set(value) {
-        return this.$store.commit("SET_ANGLE", value);
-      },
-    },
+    ...mapState({
+      span: (state) => state.wing.span,
+      chord_tip: (state) => state.wing.chord_tip,
+      chord_fuse: (state) => state.wing.chord_fuse,
+      angle: (state) => state.wing.angle,
+    }),
     selected_airfoil: {
       get() {
-        return this.$store.state.selected_airfoil;
+        return this.$store.state.wing.selected_airfoil;
       },
       set(value) {
         return this.$store.commit("SET_AIRFOIL", value);
