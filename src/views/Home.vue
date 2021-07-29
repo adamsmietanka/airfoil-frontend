@@ -178,30 +178,23 @@ export default {
   mounted() {
     Plotly.newPlot("wing-plot", this.traces, this.layout, this.options);
   },
-  created() {
-    axios.get("http://localhost:5000/airfoils").then((res) => {
-      this.airfoils = res.data;
+  async created() {
+    const choices = await axios.get("http://localhost:5000/airfoils");
+    const airfoil = await axios.get("http://localhost:5000/airfoil", {
+      params: { airfoil: this.selected_airfoil },
     });
-    axios
-      .get("http://localhost:5000/airfoil", {
-        params: { airfoil: this.selected_airfoil },
-      })
-      .then((res) => {
-        this.profile = res.data;
-      });
+    this.airfoils = choices.data;
+    this.profile = airfoil.data;
   },
   watch: {
     traces() {
       Plotly.react("wing-plot", this.traces, this.layout, this.options);
     },
-    selected_airfoil() {
-      axios
-        .get("http://localhost:5000/airfoil", {
-          params: { airfoil: this.selected_airfoil },
-        })
-        .then((res) => {
-          this.profile = res.data;
-        });
+    async selected_airfoil() {
+      const airfoil = await axios.get("http://localhost:5000/airfoil", {
+        params: { airfoil: this.selected_airfoil },
+      });
+      this.profile = airfoil.data;
     },
     profile() {
       Plotly.react("wing-plot", this.traces, this.layout, this.options);
