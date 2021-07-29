@@ -115,7 +115,7 @@ export default {
         mode: "lines",
       };
     },
-    section() {
+    section_fuse() {
       return {
         x: this.profile[0].map((x) => x * -this.chord_fuse),
         y: Array(this.profile[0].length).fill(0),
@@ -124,8 +124,17 @@ export default {
         mode: "lines",
       };
     },
+    section_tip() {
+      return {
+        x: this.profile[0].map((x) => x * -this.chord_tip + this.tip_leading),
+        y: Array(this.profile[0].length).fill(this.span / 2),
+        z: this.profile[1].map((z) => z * this.chord_tip),
+        type: "scatter3d",
+        mode: "lines",
+      };
+    },
     traces() {
-      return [this.leading, this.trailing, this.section];
+      return [this.leading, this.trailing, this.section_fuse, this.section_tip];
     },
     layout() {
       return {
