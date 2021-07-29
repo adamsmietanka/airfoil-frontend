@@ -1,5 +1,5 @@
 <template>
-  <container>
+  <section>
     <div class="form">
       <NumberField id="span" label="Span" v-model="span" unit="m" />
       <!--      TODO: add radio wing type choice-->
@@ -24,7 +24,7 @@
       <span>Selected: {{ selected_airfoil }}</span>
     </div>
     <div id="wing-plot"></div>
-  </container>
+  </section>
 </template>
 
 <script>
@@ -221,7 +221,7 @@ export default {
 </script>
 
 <style scoped>
-container {
+section {
   display: flex;
   flex-direction: row;
   justify-content: center;
